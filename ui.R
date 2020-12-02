@@ -10,10 +10,6 @@ ui <- fluidPage(
       actionButton(inputId = "clicks", 
                    label = "Click me")
     ),
-    numericInput(
-      inputId = "num_y", label = "Choose a number for y coordinate",
-      value = 1, min = 1, max = board_size
-    ),
   mainPanel(
     tabsetPanel(
       id = "tabs",
