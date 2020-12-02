@@ -34,6 +34,7 @@ server <- function(input, output) {
   output$ggplot <- renderPlot({
     gomoku_board()
   })
+  
 }
 
 shinyApp(ui = ui, server = server)
