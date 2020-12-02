@@ -1,9 +1,6 @@
 ui <- fluidPage(
   titlePanel("Play Gomoku (Five in a Row)"),
   helpText("Try to get five tiles of your own color in a row either horizontally, vertically, or diagonally, before your opponent."),
-    numericInput(
-      inputId = "num_x", label = "Choose a number for x coordinate",
-      value = 1, min = 1, max = board_size)
     sidebarPanel(
       # *Input
       numericInput(inputId = "num_x", label = "Choose a number for x coordinate",
