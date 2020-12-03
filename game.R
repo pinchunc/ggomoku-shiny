@@ -112,3 +112,45 @@ gomoku_winner <- function(rle_output) {
   return(winner_list)
 }
 
+
+df <- data.frame(x = 1:board_size, y = 1:board_size)
+board  <- ggplot(df) +
+  geom_point(aes(x, y), size = 5, alpha = 0) +
+  theme(
+    aspect.ratio = 1,
+    axis.ticks = element_line(colour = "black", size = 1),
+    panel.grid.major = element_line(colour = "black"),
+    panel.grid.minor = element_line(size = 1, colour = "black"),
+    panel.background = element_rect(fill = "#D2B48C"),
+    panel.ontop = FALSE
+  ) +
+  scale_x_continuous(
+    breaks = seq(1, nrow(df), by = 1),
+    minor_breaks = seq(1, nrow(df), 1)
+  ) +
+  scale_y_continuous(
+    breaks = seq(1, nrow(df), by = 1),
+    minor_breaks = seq(1, nrow(df), 1)
+  ) +
+  scale_x_continuous(
+    breaks = seq(1, nrow(df), by = 1),
+    minor_breaks = seq(1, nrow(df), 1),
+    sec.axis = dup_axis()
+  ) +
+  scale_y_continuous(
+    breaks = seq(1, nrow(df), by = 1),
+    minor_breaks = seq(1, nrow(df), 1),
+    sec.axis = dup_axis()
+  )
+
+board <- gomoku_board()
+add_tiles <- function(x_coord, y_coord, board, color) {
+  require(ggplot2)
+  require(ggiraph)
+  board + 
+    geom_point_interactive(
+        aes(x = x_coord, y = y_coord), 
+        size = 6.5, colour = color)
+
+  ggiraph(ggobj = board, width = 1, selection_type = "single")
+}
