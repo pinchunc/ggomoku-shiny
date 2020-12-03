@@ -1,7 +1,4 @@
 server <- function(input, output) {
-  
-  output$game <- renderPlot({gomoku_board(input$board_size)})
-  
   #print out the iteration
   observeEvent(input$clicks, {
     print(as.numeric(input$clicks))
