@@ -5,11 +5,11 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       # *Input
-      numericInput(
+      sliderInput(
         inputId = "x_coord", label = "Choose a number for x coordinate",
         value = 10, min = 1, max = board_size
       ),
-      numericInput(
+      sliderInput(
         inputId = "y_coord", label = "Choose a number for y coordinate",
         value = 10, min = 1, max = board_size
       ),
@@ -55,9 +55,9 @@ ui <- fluidPage(
             inputId = "show_moves", label = strong("Show moves?"),
             choices = c("Show moves on tiles", "Do not show moves on tiles"),
           ),
-          selectInput(
-            inputId = "board_size", label = strong("Choose whether the board is 15x15 or 19x19"),
-            choices = c("19 x 19", "15 x 15")
+          sliderInput(
+            inputId = "board_size", label = strong("Choose the size of the board between 15x15 and 19x19 (default)"),
+            min = 15, max = 19, value = default_board_size,
           ),
           icon = icon("wrench")
         ),
