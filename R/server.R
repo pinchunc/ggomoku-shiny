@@ -1,4 +1,5 @@
 server <- function(input, output) {
+  
   output$game <- renderPlot({gomoku_board(input$board_size)})
   
   #print out the iteration
@@ -8,6 +9,6 @@ server <- function(input, output) {
   
   # Adds piece to the plotted grid
   output$game <- renderGirafe({
-    add_tiles(input$num_x,  input$num_y,  board , "black")
+    add_tiles(input$x_coord,  input$y_coord,  board , "black")
   })
 }
