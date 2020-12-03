@@ -7,15 +7,13 @@ ui <- fluidPage(
       # *Input
       numericInput(
         inputId = "num_x", label = "Choose a number for x coordinate",
-        value = 1, min = 1, max = board_size
+        value = 10, min = 1, max = board_size
       ),
       numericInput(
         inputId = "num_y", label = "Choose a number for y coordinate",
-        value = 1, min = 1, max = board_size
+        value = 10, min = 1, max = board_size
       ),
-      actionButton(
-        inputId = "clicks",
-        label = "Click me"
+      submitButton(text = "Submit Move",
       )
     ),
     mainPanel(
@@ -24,8 +22,7 @@ ui <- fluidPage(
         tabPanel(
           title = "Game",
           column(
-            12, girafeOutput("stateplot", width = "100%", height = "650px"),
-            tableOutput("move_history")
+            12, girafeOutput(outputId = "game", width = "100%", height = "650px"),
           ),
           icon = icon("gamepad"),
         ),
@@ -60,7 +57,7 @@ ui <- fluidPage(
           ),
           selectInput(
             inputId = "board_size", label = strong("Choose whether the board is 15x15 or 19x19"),
-            choices = c("15 x 15", "19 x 19")
+            choices = c("19 x 19", "15 x 15")
           ),
           icon = icon("wrench")
         ),
