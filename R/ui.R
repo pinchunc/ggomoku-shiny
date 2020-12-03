@@ -13,7 +13,7 @@ ui <- fluidPage(
         inputId = "y_coord", label = "Choose a number for y coordinate",
         value = 10, min = 1, max = board_size
       ),
-      submitButton(text = "Submit Move",
+      actionButton(inputId = "submit", label = "Submit Move", class = "btn-success"
       )
     ),
     mainPanel(
