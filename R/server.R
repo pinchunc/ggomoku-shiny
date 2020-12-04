@@ -3,11 +3,7 @@ server <- function(input, output) {
   # observeEvent(input$clicks, {
   #   print(as.numeric(input$clicks))
   # })
-  reac <- reactiveValues()
-  
-  observe({ 
-    #reac$x_coord =  input$x_coord
-    #reac$y_coord = input$y_coord
+  dataInput <- reactive({ 
     testdata <- data.frame("x" = numeric(),
                            "y" = numeric())
     testdata = rbind(testdata,
@@ -25,7 +21,7 @@ server <- function(input, output) {
   
   # Adds piece to the plotted grid
   #board <- gomoku_board()
-  output$game <- renderGirafe({add_tiles(testdata, board , "black")})
+  output$game <- renderGirafe({add_tiles(dataInput(), board , "black")})
   # Adds piece to the plotted grid
   
   # output$game <- renderGirafe({
