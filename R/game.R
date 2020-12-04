@@ -45,8 +45,7 @@ gomoku_board <- function(board_size = 19) {
           breaks = seq(1, nrow(df), by = 1),
           minor_breaks = seq(1, nrow(df), 1),
           sec.axis = dup_axis()
-        ) +
-        ggtitle("Black's Move", subtitle = "Move 1/60")
+        )
     )
   )
   message("Both players have 60 tiles. Black is the first to move.")
@@ -136,3 +135,100 @@ add_tiles <- function(xy_coord, board, color) {
                            size = 6.5, colour = color)
   ggiraph(ggobj = board, width = 1, selection_type = "single")
 }
+
+
+
+get_board_size <- function(board_size) { 
+  
+  }
+
+create_state <- function(params) {
+  board_size <- board_size
+  state <- list(nextplayer = params$player_names[1],
+                game_over = FALSE,
+                params = params
+  )
+  state
+}
+
+# Keep track of whose turn it is
+find_nextplayer <- function(state) {
+  current <- state$nextplayer
+  players <- state$params$player_names
+  next_idx <- which(players == current) + 1
+  next_idx <- replace(next_idx, next_idx > length(players), 1) # In case there's just 1 player
+  players[next_idx]
+}
+
+plot_state <- function(state) {
+  colors <- c("#7CAE00", "#00BFC4", "#F8766D")
+  names(colors) <- c("You", "Computer", "None")
+  
+  consumers <- state$consumers %>%
+    mutate(
+      tip = paste0(count, " consumers with preference: ", LETTERS[xcor], "\n",
+                   "Distance to closest product: ", distance_bought, "\n",
+                   "Last bought from: ", last_bought
+      )
+    )
+  
+  
+  mark_moves <- mutate(state$legal_moves, tip = paste0("Cost: ", cost))
+  
+  g <- ggplot(df) +
+    geom_point(aes(x, y), size = 5, alpha = 0) +
+    theme(
+      aspect.ratio = 1,
+      axis.ticks = element_line(colour = "black", size = 1),
+      panel.grid.major = element_line(colour = "black"),
+      panel.grid.minor = element_line(size = 1, colour = "black"),
+      panel.background = element_rect(fill = "#D2B48C"),
+      panel.ontop = FALSE
+    ) +
+    scale_x_continuous(
+      breaks = seq(1, nrow(df), by = 1),
+      minor_breaks = seq(1, nrow(df), 1)
+    ) +
+    scale_y_continuous(
+      breaks = seq(1, nrow(df), by = 1),
+      minor_breaks = seq(1, nrow(df), 1)
+    ) +
+    scale_x_continuous(
+      breaks = seq(1, nrow(df), by = 1),
+      minor_breaks = seq(1, nrow(df), 1),
+      sec.axis = dup_axis()
+    ) +
+    scale_y_continuous(
+      breaks = seq(1, nrow(df), by = 1),
+      minor_breaks = seq(1, nrow(df), 1),
+      sec.axis = dup_axis()
+    )
+  
+  ggiraph(ggobj = g, width = 1, selection_type = "single")
+}
+
+# Create parameters
+create_params <- function(players, board_size) {
+  
+  if (!is.null(players)) {
+    stopifnot(is.character(players))
+  }
+  
+  params <- list(
+    player_names = players,
+    max_xcor = board_size,
+    max_ycor = board_size,
+  )
+  
+  params
+}
+
+# Set up the game
+# 
+default_board_size <- 19
+params <- create_params(
+  players = c("Black", "White"),
+  board_size = default_board_size
+)
+state <- create_state(params)
+
