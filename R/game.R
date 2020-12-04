@@ -112,14 +112,27 @@ gomoku_winner <- function(rle_output) {
   return(winner_list)
 }
 
+# 
+# #board <- gomoku_board()
+# add_tiles <- function(x_coord, y_coord, board, color) {
+#   require(ggplot2)
+#   require(ggiraph)
+#   board <- board +
+#     geom_point_interactive(aes(x = x_coord, y = y_coord),
+#                            size = 6.5, colour = color)
+# 
+#   ggiraph(ggobj = board, width = 1, selection_type = "single")
+# }
 
-board <- gomoku_board()
-add_tiles <- function(x_coord, y_coord, board, color) {
+#xy_coord <- data.frame(x = c(3,8), y = c(4,8))
+# 
+add_tiles <- function(xy_coord, board, color) {
   require(ggplot2)
   require(ggiraph)
-  board <- board + 
-    geom_point_interactive(aes(x = x_coord, y = y_coord), 
+  board <- gomoku_board()
+  board <- board +
+    geom_point_interactive(data = xy_coord,
+                           aes(x = x, y = y),
                            size = 6.5, colour = color)
-
   ggiraph(ggobj = board, width = 1, selection_type = "single")
 }
