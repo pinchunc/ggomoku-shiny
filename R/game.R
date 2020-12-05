@@ -119,12 +119,14 @@ gomoku_winner <- function(rle_output) {
 add_tiles <- function(xy_coord, board) {
   require(ggplot2)
   require(ggiraph)
-  board <- gomoku_board()
   board <- board +
     geom_point_interactive(data = xy_coord,
                            aes(x = x, y = y),
                            size = 6.5, color = xy_coord$move_color)
-  girafe(ggobj = board, width = 1, selection_type = "single")
+  
+  
+  
+  girafe(ggobj = board)
 }
   
 # get_board_size <- function(board_size) { 
