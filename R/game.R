@@ -119,6 +119,7 @@ gomoku_winner <- function(rle_output) {
 add_tiles <- function(xy_coord, board) {
   require(ggplot2)
   require(ggiraph)
+  board <- gomoku_board()
   board <- board +
     geom_point_interactive(data = xy_coord,
                            aes(x = x, y = y),
