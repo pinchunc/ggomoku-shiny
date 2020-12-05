@@ -112,20 +112,20 @@ gomoku_winner <- function(rle_output) {
 # }
 
 #xy_coord <- data.frame(x = c(3,8), y = c(4,8))
-# 
+
+
+
+
 add_tiles <- function(xy_coord, board) {
   require(ggplot2)
   require(ggiraph)
-  board <- gomoku_board()
   board <- board +
     geom_point_interactive(data = xy_coord,
                            aes(x = x, y = y),
-                           size = 6.5, colour = xy_coord$move_color)
-  ggiraph(ggobj = board, width = 1, selection_type = "single")
+                           size = 6.5, color = xy_coord$move_color)
+  girafe(ggobj = board, width = 1, selection_type = "single")
 }
-
-
-
+  
 # get_board_size <- function(board_size) { 
 #   
 #   }
@@ -213,7 +213,7 @@ add_tiles <- function(xy_coord, board) {
 # 
 # # Set up the game
 # # 
-# default_board_size <- 19
+default_board_size <- 19
 # params <- create_params(
 #   players = c("Black", "White"),
 #   board_size = default_board_size
