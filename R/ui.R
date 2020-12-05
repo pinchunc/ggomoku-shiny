@@ -26,9 +26,8 @@ ui <- fluidPage(
             12, girafeOutput(outputId = "plot", width = "100%", height = "650px"),
           ),
           icon = icon("gamepad"),
-        ),
-        tabPanel(
-          title = "Move History",
+          br(),
+          strong("Move History"),
           column(
             12, tableOutput(outputId = "table")
           )
