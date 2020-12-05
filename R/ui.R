@@ -4,6 +4,7 @@ ui <- fluidPage(
   hr(),
   sidebarLayout(
     sidebarPanel(
+      title = "Make Your Move",
       # *Input
       sliderInput(
         inputId = "x_coord", label = "Choose a number for x coordinate",
@@ -52,8 +53,8 @@ ui <- fluidPage(
         tabPanel(
           title = "Settings",
           selectInput(
-            inputId = "show_moves", label = strong("Show moves?"),
-            choices = c("Show moves on tiles", "Do not show moves on tiles"),
+            inputId = "show_moves", label = strong("Show move numbers on tiles"),
+            choices = c("Do not show move numbers", "Show move numbers"),
           ),
           sliderInput(
             inputId = "board_size", label = strong("Choose the size of the board between 15x15 and 19x19 (default)"),
