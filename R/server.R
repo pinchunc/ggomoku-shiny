@@ -8,11 +8,8 @@ server <- function(input, output) {
   
   message("Initializing reactive data.frame...")
   dataInput <- reactive({ 
-    rbind(data.frame(x = numeric(), 
-                     y = numeric()),
-          data.frame(x = as.numeric(input$x_coord), 
-                     y = as.numeric(input$y_coord))
-          )
+    data.frame(x = as.numeric(input$x_coord), 
+               y = as.numeric(input$y_coord))
   })  
 
 
@@ -21,8 +18,6 @@ server <- function(input, output) {
   output$plot <- renderGirafe({
     
     message("Updating the data.frame")
-    #df <- data.frame(x = numeric(),
-    #                 y = numeric())
     newdata <- dataInput()
     df <- rbind(df, newdata)
     
