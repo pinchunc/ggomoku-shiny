@@ -116,13 +116,13 @@ gomoku_winner <- function(rle_output) {
 
 
 
-plot_new_board <- function(xy_coord, board) {
+plot_new_board <- function(xy_coord, board, color) {
   require(ggplot2)
   require(ggiraph)
   board <- board +
     geom_point_interactive(data = xy_coord,
                            aes(x = x, y = y),
-                           size = 6.5, color = xy_coord$move_color)
+                           size = 6.5, colour = color) 
   girafe(ggobj = board)
 }
   
