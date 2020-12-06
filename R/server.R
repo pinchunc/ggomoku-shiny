@@ -15,19 +15,24 @@ server <- function(input, output) {
           )
   })  
 
+
   message("Calling renderGirafe...")
+  
   output$plot <- renderGirafe({
     
     message("Updating the data.frame")
-    df <- data.frame(x = numeric(),
-                     y = numeric())
+    #df <- data.frame(x = numeric(),
+    #                 y = numeric())
     newdata <- dataInput()
     df <- rbind(df, newdata)
     
+    print(head(df))
+    # If the button hasn't been pressed yet, initialize a new board
     if (input$goButton == 0) {
       board <- gomoku_board()
     }
     
+    # Plot new board (returns girafe object)
     plot_new_board(df, board, "black")
   })
 
