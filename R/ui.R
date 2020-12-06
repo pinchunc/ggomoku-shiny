@@ -8,11 +8,11 @@ ui <- fluidPage(
       # *Input
       sliderInput(
         inputId = "x_coord", label = "Choose a number for x coordinate",
-        value = 10, min = 1, max = 19
+        value = 10, min = 1, max = default_board_size
       ),
       sliderInput(
         inputId = "y_coord", label = "Choose a number for y coordinate",
-        value = 10, min = 1, max = 19
+        value = 10, min = 1, max = default_board_size
       ),
       actionButton(inputId = "goButton", label = "Submit Move", class = "btn-success"
       )
