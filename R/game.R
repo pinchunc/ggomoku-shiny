@@ -1,16 +1,5 @@
 gomoku_board <- function(board_size = 19) {
   
-  if (board_size == 15) {
-    board_size <- 15
-  }
-  else if (board_size == 19) {
-    board_size <- 19
-  }
-  else {
-    stop("board_size argument must be set to 19 (default) or 15.")
-  }
-  
-  
   # Initializing data.frame for board
   df <- data.frame(x = 1:board_size, y = 1:board_size)
   
@@ -48,7 +37,6 @@ gomoku_board <- function(board_size = 19) {
         )
     )
   )
-  message("Both players have 60 tiles. Black is the first to move.")
   
   # Plotting the board
   return(board)
@@ -124,17 +112,6 @@ gomoku_winner <- function(rle_output) {
 # }
 
 #xy_coord <- data.frame(x = c(3,8), y = c(4,8))
-# 
-add_tiles <- function(xy_coord, board, color) {
-  require(ggplot2)
-  require(ggiraph)
-  board <- gomoku_board()
-  board <- board +
-    geom_point_interactive(data = xy_coord,
-                           aes(x = x, y = y),
-                           size = 6.5, colour = color)
-  ggiraph(ggobj = board, width = 1, selection_type = "single")
-}
 
 
 
@@ -225,10 +202,9 @@ add_tiles <- function(xy_coord, board, color) {
 # 
 # # Set up the game
 # # 
-# default_board_size <- 19
+default_board_size <- 19
 # params <- create_params(
 #   players = c("Black", "White"),
 #   board_size = default_board_size
 # )
 # state <- create_state(params)
-

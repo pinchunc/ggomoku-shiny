@@ -4,16 +4,17 @@ ui <- fluidPage(
   hr(),
   sidebarLayout(
     sidebarPanel(
+      title = "Make Your Move",
       # *Input
       sliderInput(
         inputId = "x_coord", label = "Choose a number for x coordinate",
-        value = 10, min = 1, max = board_size
+        value = 10, min = 1, max = 19
       ),
       sliderInput(
         inputId = "y_coord", label = "Choose a number for y coordinate",
-        value = 10, min = 1, max = board_size
+        value = 10, min = 1, max = 19
       ),
-      actionButton(inputId = "submit", label = "Submit Move", class = "btn-success"
+      actionButton(inputId = "goButton", label = "Submit Move", class = "btn-success"
       )
     ),
     mainPanel(
@@ -22,9 +23,14 @@ ui <- fluidPage(
         tabPanel(
           title = "Game",
           column(
-            12, girafeOutput(outputId = "game", width = "100%", height = "650px"),
+            12, girafeOutput(outputId = "plot", width = "100%", height = "650px"),
           ),
           icon = icon("gamepad"),
+          br(),
+          strong("Move History"),
+          column(
+            12, tableOutput(outputId = "table")
+          )
         ),
         tabPanel(
           title = "How to play",
@@ -52,12 +58,12 @@ ui <- fluidPage(
         tabPanel(
           title = "Settings",
           selectInput(
-            inputId = "show_moves", label = strong("Show moves?"),
-            choices = c("Show moves on tiles", "Do not show moves on tiles"),
+            inputId = "show_moves", label = strong("Show move numbers on tiles"),
+            choices = c("Do not show move numbers", "Show move numbers"),
           ),
           sliderInput(
             inputId = "board_size", label = strong("Choose the size of the board between 15x15 and 19x19 (default)"),
-            min = 15, max = 19, value = default_board_size,
+            min = 15, max = 19, value = 19,
           ),
           icon = icon("wrench")
         ),
