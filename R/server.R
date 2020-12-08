@@ -34,7 +34,7 @@ server <- function(input, output) {
     
     message("Updating the data.frame")
     print(dataInput())
-    
+    print(matrix)
   
     # If the button hasn't been pressed yet, initialize a new board
     if (input$board_size == "19x19") {
@@ -57,6 +57,17 @@ server <- function(input, output) {
     # Printing the move history data.frame
     df_moves <- dataInput()
     df_moves
+  })
+  
+  isolate({
+    if (input$goButton > 0){
+      message("initialize the matrix")
+      matrix <- data.frame(matrix(nrow = board_size, ncol = board_size))
+      for (i in 1:nrow(values$df)) {
+          message("adding color to the matrix")
+          matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
+      }
+    }
   })
 
 }
