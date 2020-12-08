@@ -49,10 +49,14 @@ server <- function(input, output) {
     
     # Show move numbers if show_moves is selected
     
-    # 
-    
     # Plot new board (returns girafe object)
     plot_new_board(dataInput(), board)
+  })
+  
+  output$table <- DT::renderDataTable({
+    # Printing the move history data.frame
+    df_moves <- dataInput()
+    df_moves
   })
 
 }
