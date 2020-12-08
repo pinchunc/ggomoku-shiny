@@ -69,6 +69,12 @@ server <- function(input, output) {
       winner <- gomoku_victory(matrix)
       message("checking winner")
       print(winner)
+      if (!is.na(winner)) {
+        # Sound effect for winner
+        # beepr::beep(sound = 3, expr = NULL)
+        message("The winner is ", winner, "!")
+        js$reset()
+      }
   })
   
   observeEvent(input$resetButton, {js$reset()}) 
