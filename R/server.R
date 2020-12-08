@@ -60,12 +60,15 @@ server <- function(input, output) {
   
   observeEvent(input$goButton, {
       message("initialize the matrix")
-      matrix <- data.frame(matrix(nrow = board_size, ncol = board_size))
+      matrix <- matrix(nrow = board_size, ncol = board_size)
       for (i in 1:nrow(values$df)) {
           message("adding color to the matrix")
           matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
       }
       print(matrix)
+      winner <- gomoku_victory(matrix)
+      message("checking winner")
+      print(winner)
   })
 
 }
