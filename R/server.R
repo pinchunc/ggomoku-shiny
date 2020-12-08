@@ -1,8 +1,8 @@
 server <- function(input, output) {
   message("Initializing reactive data.frame...")
-  values <- reactiveValues()
-  values$df <- data.frame(x = numeric(),
-                          y = numeric())
+  values <- reactiveValues(df = data.frame(x = numeric(),
+                                                   y = numeric()))
+  
   newEntry <- observeEvent(input$goButton, {
     message("Printing button index...")
     print(as.numeric(input$goButton))
