@@ -70,5 +70,7 @@ server <- function(input, output) {
       message("checking winner")
       print(winner)
   })
+  
+  observeEvent(input$resetButton, {js$reset()}) 
 
 }

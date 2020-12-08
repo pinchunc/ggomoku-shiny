@@ -25,7 +25,10 @@ ui <- fluidPage(
         value = numeric(), min = 1, max = default_board_size
       ),
       actionButton(inputId = "goButton", label = "Submit Move", class = "btn-success"
-      )
+      ),
+      useShinyjs(),                                           # Include shinyjs in the UI
+      extendShinyjs(text = jsResetCode, functions = "reset"), # Add the js code to the page
+      actionButton("resetButton", "Restart")
     ),
     mainPanel(
       tabsetPanel(
