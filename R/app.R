@@ -1,9 +1,11 @@
 library(shiny)
+library(shinydashboard)
 library(dplyr)
 library(tibble)
 library(purrr)
 library(ggplot2)
 library(ggiraph)
+library(DT)
 
 # game.R needs to be loaded first
 source("R/game.R")
