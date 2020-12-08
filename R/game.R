@@ -116,13 +116,13 @@ gomoku_winner <- function(rle_output) {
 
 
 
-plot_new_board <- function(xy_coord, board, color) {
+plot_new_board <- function(xy_coord, board) {
   require(ggplot2)
   require(ggiraph)
   board <- board +
     geom_point_interactive(data = xy_coord,
-                           aes(x = x, y = y),
-                           size = 6.5, colour = color) 
+                           aes(x = x, y = y, colour = move_color),
+                           size = 6.5) + scale_colour_identity()
   girafe(ggobj = board)
 }
   
@@ -214,6 +214,8 @@ plot_new_board <- function(xy_coord, board, color) {
 # # Set up the game
 # # 
 default_board_size <- 19
+
+
 # params <- create_params(
 #   players = c("Black", "White"),
 #   board_size = default_board_size
