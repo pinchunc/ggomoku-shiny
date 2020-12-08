@@ -1,33 +1,58 @@
 server <- function(input, output) {
+  
+  # initialize the move history data.frame
   message("Initializing reactive data.frame...")
   values <- reactiveValues(df = data.frame(x = numeric(),
-                                                   y = numeric()))
+                                           y = numeric(),
+                                           move_color = character()))
   
   newEntry <- observeEvent(input$goButton, {
     message("Printing button index...")
     print(as.numeric(input$goButton))
+    
+    # if the move is odd, it is 'black', otherwise white
+    if (as.numeric(input$goButton) %in% seq(1, 119, 2)) {
+      color <- "black"
+    }
+    else {
+      color <- "white"
+    }
+    
+    # Adding new row to the move history data.frame
     values$df <- rbind(values$df,
                        data.frame(x = as.numeric(input$x_coord), 
-                                  y = as.numeric(input$y_coord)))
+                                  y = as.numeric(input$y_coord),
+                                  move_color = color))
   })
   
   dataInput <- reactive({
     values$df
   })
   
-
   message("Calling renderGirafe...")
   output$plot <- renderGirafe({
     
     message("Updating the data.frame")
     print(dataInput())
+    
+  
     # If the button hasn't been pressed yet, initialize a new board
-    if (input$goButton == 0) {
-      board <- gomoku_board()
+    if (input$board_size == "19x19") {
+      board_size <- default_board_size
+      board <- gomoku_board(board_size)
+    }
+    else if (input$board_size == "15x15") {
+      board_size <- 15
+      board <- gomoku_board(board_size)
     }
     
+    
+    # Show move numbers if show_moves is selected
+    
+    # 
+    
     # Plot new board (returns girafe object)
-    plot_new_board(dataInput(), board, "black")
+    plot_new_board(dataInput(), board)
   })
 
 }
