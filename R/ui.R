@@ -8,11 +8,11 @@ ui <- fluidPage(
       # *Input
       sliderInput(
         inputId = "x_coord", label = "Choose a number for x coordinate",
-        value = numeric(), min = 1, max = default_board_size
+        value = numeric(), min = 1, max = board_size
       ),
       sliderInput(
         inputId = "y_coord", label = "Choose a number for y coordinate",
-        value = numeric(), min = 1, max = default_board_size
+        value = numeric(), min = 1, max = board_size
       ),
       actionButton(inputId = "goButton", label = "Submit Move", class = "btn-success"
       )
@@ -57,13 +57,13 @@ ui <- fluidPage(
         ),
         tabPanel(
           title = "Settings",
-          selectInput(
-            inputId = "show_moves", label = strong("Show move numbers on tiles"),
+          radioButtons(
+            inputId = "show_moves", label = strong("Show move numbers on tiles?"),
             choices = c("Do not show move numbers", "Show move numbers"),
           ),
-          sliderInput(
+          radioButtons(
             inputId = "board_size", label = strong("Choose the size of the board between 15x15 and 19x19 (default)"),
-            min = 15, max = 19, value = 19,
+            choices = c("19x19", "15x15"),
           ),
           icon = icon("wrench")
         ),
