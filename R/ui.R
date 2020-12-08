@@ -4,15 +4,25 @@ ui <- fluidPage(
   hr(),
   sidebarLayout(
     sidebarPanel(
+      radioButtons(
+        inputId = "show_moves", label = strong("Show move numbers on tiles?"),
+        choices = c("Do not show move numbers", "Show move numbers"),
+      ),
+      radioButtons(
+        inputId = "board_size", label = strong("Choose the size of the board between 15x15 and 19x19 (default)"),
+        choices = c("19x19", "15x15"),
+      ),
+      br(),
+      br(),
       title = "Make Your Move",
       # *Input
       sliderInput(
         inputId = "x_coord", label = "Choose a number for x coordinate",
-        value = numeric(), min = 1, max = board_size
+        value = numeric(), min = 1, max = default_board_size
       ),
       sliderInput(
         inputId = "y_coord", label = "Choose a number for y coordinate",
-        value = numeric(), min = 1, max = board_size
+        value = numeric(), min = 1, max = default_board_size
       ),
       actionButton(inputId = "goButton", label = "Submit Move", class = "btn-success"
       )
@@ -29,7 +39,7 @@ ui <- fluidPage(
           br(),
           strong("Move History"),
           column(
-            12, tableOutput(outputId = "table")
+            12, DT::dataTableOutput(outputId = "table")
           )
         ),
         tabPanel(
@@ -54,18 +64,6 @@ ui <- fluidPage(
           p("The rule of three and three bans a move that simultaneously forms two open rows of three tiles i.e. two rows that are not blocked at either end."),
           p("The rule of four and four bans a move that simultaneously forms two rows of four open tiles (open or otherwise)."),
           icon = icon("chess-board")
-        ),
-        tabPanel(
-          title = "Settings",
-          radioButtons(
-            inputId = "show_moves", label = strong("Show move numbers on tiles?"),
-            choices = c("Do not show move numbers", "Show move numbers"),
-          ),
-          radioButtons(
-            inputId = "board_size", label = strong("Choose the size of the board between 15x15 and 19x19 (default)"),
-            choices = c("19x19", "15x15"),
-          ),
-          icon = icon("wrench")
         ),
         tabPanel(
           title = "About",
