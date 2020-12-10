@@ -92,7 +92,7 @@ server <- function(input, output) {
         # Sound effect for winner
         # beepr::beep(sound = 3, expr = NULL)
         message("The winner is ", winner, "!")
-        js$reset()
+        output$winner <- renderText({paste0("The winner is ", winner, "! Press the restart button to refresh the game.")})
       }
   })
   
