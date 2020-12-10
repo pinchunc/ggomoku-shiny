@@ -1,5 +1,7 @@
 server <- function(input, output) {
   
+  board_size <- default_board_size
+  
   # initialize the move history data.frame
   message("Initializing reactive data.frame...")
   values <- reactiveValues(df = data.frame(x = numeric(),
@@ -18,11 +20,25 @@ server <- function(input, output) {
       color <- "white"
     }
     
-    # Adding new row to the move history data.frame
-    values$df <- rbind(values$df,
-                       data.frame(x = as.numeric(input$x_coord), 
-                                  y = as.numeric(input$y_coord),
-                                  move_color = color))
+    # creating the new row based on user input
+    new_row <- data.frame(x = as.numeric(input$x_coord), 
+                          y = as.numeric(input$y_coord), 
+                          move_color = color)
+    
+    # checking if the row's new coordinates already exist in the move_history
+    # only does this after the first move has been made
+    message("Checking if move exists in move history already...")
+    if (nrow(values$df) > 0) {
+      if (all(c(new_row$x, new_row$y) %in% c(values$df$x, values$df$y))) {
+        # renderUI()
+        message("That is not a valid move, please try again.")
+      }
+    }
+
+    message("Adding move to move history...")
+    values$df <- rbind(values$df, new_row)
+    
+    
   })
   
   dataInput <- reactive({
@@ -32,7 +48,7 @@ server <- function(input, output) {
   message("Calling renderGirafe...")
   output$plot <- renderGirafe({
     
-    message("Updating the data.frame")
+    message("Printing move history...")
     print(dataInput())
   
     # If the button hasn't been pressed yet, initialize a new board
@@ -45,30 +61,36 @@ server <- function(input, output) {
       board <- gomoku_board(board_size)
     }
     
-    
     # Show move numbers if show_moves is selected
     
     # Plot new board (returns girafe object)
     plot_new_board(dataInput(), board)
   })
   
+  message("Calling renderDataTable...")
   output$table <- DT::renderDataTable({
     # Printing the move history data.frame
-    df_moves <- dataInput()
-    df_moves
+    dataInput()
   })
   
   observeEvent(input$goButton, {
-      message("initialize the matrix")
+      message("Initializing the matrix...")
+      # initializing matrix
       matrix <- matrix(nrow = board_size, ncol = board_size)
+    
+      # Adding the move to the matrix
       for (i in 1:nrow(values$df)) {
-          message("adding color to the matrix")
+          message("Adding move to the matrix...")
           matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
       }
       print(matrix)
+      
+      # Checking winner
+      message("Checking winner...")
       winner <- gomoku_victory(matrix)
-      message("checking winner")
       print(winner)
+      
+      # Print winner in console if it exists (change to renderUI)
       if (!is.na(winner)) {
         # Sound effect for winner
         # beepr::beep(sound = 3, expr = NULL)
