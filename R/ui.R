@@ -36,6 +36,14 @@ ui <- fluidPage(
         tabPanel(
           title = "Game",
           column(
+            12, textOutput(outputId = "winner"),
+            tags$head(tags$style("#winner{font-size: 30px;
+                                 font-style: bold;
+                                 }"
+            )
+            )
+          ),
+          column(
             12, girafeOutput(outputId = "plot", width = "100%", height = "650px"),
           ),
           icon = icon("gamepad"),
