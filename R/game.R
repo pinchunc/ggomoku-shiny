@@ -125,6 +125,18 @@ plot_new_board <- function(xy_coord, board) {
                            size = 6.5) + scale_colour_identity()
   girafe(ggobj = board)
 }
+
+check_existing_move <- function(input, xy_coord) {
+  # Checking if the input (x,y) coordinates exist in the move history 
+  input_coord <- data.frame(x = input$x_coord, y = input$y_coord)
+  
+  if ( nrow(merge(input_coord, xy_coord)) > 0 ) {
+      "This move has already been used. Please choose a different move."
+  }
+  else {
+    NULL
+  }
+}
   
 # get_board_size <- function(board_size) { 
 #   
