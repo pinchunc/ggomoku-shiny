@@ -20,22 +20,12 @@ server <- function(input, output) {
       color <- "white"
     }
     
+    message("Adding move to move history...")
     # creating the new row based on user input
     new_row <- data.frame(x = as.numeric(input$x_coord), 
                           y = as.numeric(input$y_coord), 
                           move_color = color)
-    
-    # checking if the row's new coordinates already exist in the move_history
-    # only does this after the first move has been made
-    message("Checking if move exists in move history already...")
-    if (nrow(values$df) > 0) {
-      if (all(c(new_row$x, new_row$y) %in% c(values$df$x, values$df$y))) {
-        # renderUI()
-        message("That is not a valid move, please try again.")
-      }
-    }
 
-    message("Adding move to move history...")
     values$df <- rbind(values$df, new_row)
     
     
