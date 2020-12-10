@@ -8,6 +8,13 @@ server <- function(input, output) {
                                            y = numeric(),
                                            move_color = character()))
   
+  # Checks if the user input is valid before they attempt it
+  checker <- reactive({
+    validate(
+      check_existing_move(input, values$df)
+    )
+  })
+  
   newEntry <- observeEvent(input$goButton, {
     message("Printing button index...")
     print(as.numeric(input$goButton))
