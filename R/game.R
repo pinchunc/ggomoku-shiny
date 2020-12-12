@@ -109,18 +109,5 @@ plot_new_board <- function(xy_coord, board) {
   girafe(ggobj = board)
 }
 
-check_valid_move <- function(x_input, y_input, df) {
-  # Checking if the input (x,y) coordinates exist in the move history 
-  input_coord <- data.frame(x = as.numeric(x_input), y = as.numeric(y_input))
-  
-  # Check if input_coord is in xy_coord
-  if ( nrow(merge(input_coord, (df %>% select(x,y)) ) ) > 0 ) {
-      "This move has already been used. Please choose a different move."
-  }
-  else {
-    # NULL means 'success' in this context
-    NULL
-  }
-}
 
 default_board_size <- 19
