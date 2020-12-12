@@ -7,17 +7,11 @@ server <- function(input, output) {
   values <- reactiveValues(df = data.frame(x = numeric(),
                                            y = numeric(),
                                            move_color = character()))
+
   
-  # Checks if the user input is valid before they attempt it
-  checker <- reactive({
-    validate(
-      check_existing_move(input, values$df)
-    )
-  })
+  
   
   newEntry <- observeEvent(input$goButton, {
-    message("Printing button index...")
-    print(as.numeric(input$goButton))
     
     # if the move is odd, it is 'black', otherwise white
     if (as.numeric(input$goButton) %in% seq(1, 119, 2)) {
@@ -45,9 +39,6 @@ server <- function(input, output) {
   message("Calling renderGirafe...")
   output$plot <- renderGirafe({
     
-    message("Printing move history...")
-    print(dataInput())
-  
     # If the button hasn't been pressed yet, initialize a new board
     if (input$board_size == "19x19") {
       board_size <- default_board_size
@@ -60,12 +51,23 @@ server <- function(input, output) {
     
     # Show move numbers if show_moves is selected
     
+
     # Plot new board (returns girafe object)
     plot_new_board(dataInput(), board)
   })
   
   message("Calling renderDataTable...")
   output$table <- DT::renderDataTable({
+    
+    # Checks for duplicate moves
+    if (input$goButton > 0) {
+      validate(
+        check_valid_move(x_input = input$x_coord, 
+                         y_input = input$y_coord,
+                         df = values$df)
+      )
+    }
+    
     # Printing the move history data.frame
     dataInput()
   })
@@ -80,12 +82,10 @@ server <- function(input, output) {
           message("Adding move to the matrix...")
           matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
       }
-      print(matrix)
       
       # Checking winner
       message("Checking winner...")
       winner <- gomoku_victory(matrix)
-      print(winner)
       
       # Print winner in console if it exists (change to renderUI)
       if (!is.na(winner)) {
