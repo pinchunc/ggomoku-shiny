@@ -16,12 +16,12 @@ server <- function(input, output) {
 
   # Disables the button if the move already has taken place
   button_allowed <- observe(
-      if (nrow(merge( move_to_check(), (values$df %>% select(x, y)) ) ) > 0) {
-            disable("goButton")
-      }
-      else {
-        enable("goButton")
-      }
+    if (nrow(merge(move_to_check(), (values$df %>% select(x, y)))) > 0) {
+      disable("goButton")
+    }
+    else {
+      enable("goButton")
+    }
   )
 
 
@@ -96,12 +96,24 @@ server <- function(input, output) {
     winner <- gomoku_victory(matrix)
 
     # Print winner in console if it exists (change to renderUI)
+    # otherwise, announce whose turn it is.
+    
     if (!is.na(winner)) {
       # Sound effect for winner
       # beepr::beep(sound = 3, expr = NULL)
       message("The winner is ", winner, "!")
       output$winner <- renderText({
         paste0("The winner is ", winner, "! Press the restart button to refresh the game.")
+      })
+    }
+    else if (values$df$move_color[nrow(values$df)] == "black") {
+      output$turn <- renderText({
+        "It is white's turn to move."
+      })
+    }
+    else if (values$df$move_color[nrow(values$df)] == "white") {
+      output$turn <- renderText({
+        "It is black's turn to move."
       })
     }
   })
