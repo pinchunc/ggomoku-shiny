@@ -61,15 +61,8 @@ server <- function(input, output) {
   message("Calling renderGirafe...")
   output$plot <- renderGirafe({
 
-    # If the button hasn't been pressed yet, initialize a new board
-    if (input$board_size == "19x19") {
-      board_size <- default_board_size
-      board <- gomoku_board(board_size)
-    }
-    else if (input$board_size == "15x15") {
-      board_size <- 15
-      board <- gomoku_board(board_size)
-    }
+    # Initialize a new board
+    board <- gomoku_board(board_size)
 
     # Show move numbers if show_moves is selected
     
