@@ -24,8 +24,16 @@ server <- function(input, output) {
     }
   )
 
+  # Mentioning the first move's turn
+  first_move <- observe(
+    if(input$goButton == 0) {
+      output$turn <- renderText({
+        "It is black's turn to move."
+      })
+    }
+  )
 
-
+  # Adding new input to the move history when the button is clicked
   newEntry <- observeEvent(input$goButton, {
 
     # if the move is odd, it is 'black', otherwise white
@@ -55,17 +63,11 @@ server <- function(input, output) {
   output$plot <- renderGirafe({
 
     # If the button hasn't been pressed yet, initialize a new board
-    if (input$board_size == "19x19") {
-      board_size <- default_board_size
+    if (input$goButton == 0) {
       board <- gomoku_board(board_size)
     }
-    else if (input$board_size == "15x15") {
-      board_size <- 15
-      board <- gomoku_board(board_size)
-    }
-
+    
     # Show move numbers if show_moves is selected
-
 
     # Plot new board (returns girafe object)
     plot_new_board(dataInput(), board)
