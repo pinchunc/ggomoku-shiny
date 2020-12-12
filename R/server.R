@@ -24,7 +24,14 @@ server <- function(input, output) {
     }
   )
 
-
+  # Mentioning the first move's turn
+  first_move <- observe(
+    if(input$goButton == 0) {
+      output$turn <- renderText({
+        "It is black's turn to move."
+      })
+    }
+  )
 
   newEntry <- observeEvent(input$goButton, {
 
