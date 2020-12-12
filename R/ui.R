@@ -15,6 +15,8 @@ ui <- fluidPage(
       br(),
       br(),
       title = "Make Your Move",
+      textOutput(outputId = "turn"),
+      tags$head(tags$style("#turn{font-size: 15px; font-style: bold;}")),
       # *Input
       sliderInput(
         inputId = "x_coord", label = "Choose a number for x coordinate",
@@ -28,7 +30,7 @@ ui <- fluidPage(
       ),
       useShinyjs(),                                           # Include shinyjs in the UI
       extendShinyjs(text = jsResetCode, functions = "reset"), # Add the js code to the page
-      actionButton("resetButton", "Restart")
+      actionButton(inputId = "resetButton", label = "Restart")
     ),
     mainPanel(
       tabsetPanel(
