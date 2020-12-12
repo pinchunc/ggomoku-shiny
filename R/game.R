@@ -122,3 +122,5 @@ check_valid_move <- function(x_input, y_input, df) {
     NULL
   }
 }
+
+default_board_size <- 19

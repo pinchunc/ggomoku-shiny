@@ -1,6 +1,6 @@
 server <- function(input, output) {
-  board_size <- default_board_size
 
+  board_size <- default_board_size
   # initialize the move history data.frame
   message("Initializing reactive data.frame...")
   values <- reactiveValues(df = data.frame(
@@ -65,17 +65,14 @@ server <- function(input, output) {
     }
 
     # Show move numbers if show_moves is selected
-
-
+    
     # Plot new board (returns girafe object)
+    message("Plotting new board...")
     plot_new_board(dataInput(), board)
   })
 
   message("Calling renderDataTable...")
   output$table <- DT::renderDataTable({
-
-
-
     # Printing the move history data.frame
     dataInput()
   })
@@ -100,8 +97,6 @@ server <- function(input, output) {
     
     if (!is.na(winner)) {
       # Sound effect for winner
-      # beepr::beep(sound = 3, expr = NULL)
-      message("The winner is ", winner, "!")
       output$winner <- renderText({
         paste0("The winner is ", winner, "! Press the restart button to refresh the game.")
       })
