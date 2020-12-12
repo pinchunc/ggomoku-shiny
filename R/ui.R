@@ -8,10 +8,6 @@ ui <- fluidPage(
         inputId = "show_moves", label = strong("Show move numbers on tiles?"),
         choices = c("Do not show move numbers", "Show move numbers"),
       ),
-      radioButtons(
-        inputId = "board_size", label = strong("Choose the size of the board between 15x15 and 19x19 (default)"),
-        choices = c("19x19", "15x15"),
-      ),
       br(),
       br(),
       title = "Make Your Move",
