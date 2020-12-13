@@ -1,12 +1,13 @@
 server <- function(input, output) {
-
   board_size <- default_board_size
   # initialize the move history data.frame
   message("Initializing reactive data.frame...")
   values <- reactiveValues(df = data.frame(
     x = numeric(),
     y = numeric(),
-    move_color = character()
+    move_color = character(),
+    move_number = numeric(),
+    text_color = character()
   ))
 
   # A reactive data.frame of the user input
@@ -26,7 +27,7 @@ server <- function(input, output) {
 
   # Mentioning the first move's turn
   first_move <- observe(
-    if(input$goButton == 0) {
+    if (input$goButton == 0) {
       output$turn <- renderText({
         "It is black's turn to move."
       })
@@ -38,9 +39,13 @@ server <- function(input, output) {
     # if the move is odd, it is 'black', otherwise white
     if (as.numeric(input$goButton) %in% seq(1, 119, 2)) {
       color <- "black"
+      move_number <- (as.numeric(input$goButton) + 1) / 2
+      text_color <- "white"
     }
     else {
       color <- "white"
+      move_number <- as.numeric(input$goButton) / 2
+      text_color <- "black"
     }
 
     message("Adding move to move history...")
@@ -48,8 +53,11 @@ server <- function(input, output) {
     new_row <- data.frame(
       x = as.numeric(input$x_coord),
       y = as.numeric(input$y_coord),
-      move_color = color
+      move_color = color,
+      move_number = move_number,
+      text_color = text_color
     )
+
 
     values$df <- rbind(values$df, new_row)
   })
@@ -65,16 +73,31 @@ server <- function(input, output) {
     board <- gomoku_board(board_size)
 
     # Show move numbers if show_moves is selected
-    
-    # Plot new board (returns girafe object)
+
+    # Adding points to the ggplot object
     message("Plotting new board...")
-    plot_new_board(dataInput(), board)
+    board <- board +
+      geom_point_interactive(
+        data = dataInput(),
+        aes(x = x, y = y, colour = move_color),
+        size = 6.5
+      ) + scale_colour_identity()
+
+    # Adding move numbers to the plot if selected in the settings
+    if (nrow(dataInput()) > 0 && input$show_moves == "Show move numbers") {
+      board <- board + geom_text(
+        data = dataInput(),
+        aes(x = x, y = y, label = move_number, colour = text_color)
+      )
+    }
+    # Plotting the board
+    girafe(ggobj = board)
   })
 
   message("Calling renderDataTable...")
   output$table <- DT::renderDataTable({
     # Printing the move history data.frame
-    dataInput()
+    dataInput() %>% select(-text_color)
   })
 
   observeEvent(input$goButton, {
@@ -94,7 +117,7 @@ server <- function(input, output) {
 
     # Print winner in console if it exists (change to renderUI)
     # otherwise, announce whose turn it is.
-    
+
     if (!is.na(winner)) {
       # Sound effect for winner
       output$winner <- renderText({
