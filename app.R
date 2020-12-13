@@ -8,10 +8,9 @@ library(ggiraph)
 library(DT)
 jsResetCode <- "shinyjs.reset = function() {history.go(0)}" # Define the js method that resets the page
 
-# game.R needs to be loaded first
-source("R/game.R")
-source("R/ui.R")
-source("R/server.R")
+source("game.R")
+source("ui.R")
+source("server.R")
 
 shinyApp(ui, server)
 

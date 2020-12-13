@@ -1,0 +1,12 @@
+name: ggomoku
+title: ggomoku
+username:
+account: pinchunchen
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3390725
+bundleId: 3984608
+url: https://pinchunchen.shinyapps.io/ggomoku/
+when: 1607902125.29531
+asMultiple: FALSE
+asStatic: FALSE
