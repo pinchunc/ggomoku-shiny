@@ -80,6 +80,21 @@ ui <- fluidPage(
           strong("Authors"),
           p("Pin-Chun Chen and J Steven Raquel"),
           p("UC Irvine Department of Statistics"),
+          br(),
+          br(),
+          p("For more information about us, please check out our personal websites!"),
+          tags$a(href="https://jstevenr.com", "Pin-Chun Chen"),
+          br(),
+          tags$a(href="https://sites.uci.edu/pinchunchen/", "J Steven Raquel"),
+          br(),
+          br(),
+          p("For more information about the game, please check out our Github repositories.!"),
+          tags$a(href="https://github.com/pinchunc/ggomoku-shiny", "Please click here for shiny app source codes."),
+          br(),
+          tags$a(href="https://github.com/pinchunc/ggomoku", "Please click here for the R package repository."),
+          br(),
+          br(),
+          p("Copyright (c) 2020 Pin-Chun Chen & J Steven Raquel"),
           icon = icon("address-card")
         )
       )
