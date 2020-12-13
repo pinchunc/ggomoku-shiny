@@ -38,27 +38,25 @@ server <- function(input, output) {
     }
   )
   
-  # Ending the game if it reaches 120 moves
-  last_move <- observe(
-    if (input$goButton == 120) { 
+  newEntry <- observeEvent(input$goButton, {
+    i <- as.numeric(input$goButton)
+    # Ending the game if it reaches 120 moves
+    if (i == 120) { 
       output$turn <- renderText({
         "The game ends in a stalemate!"
       })
       js$reset()
-      }
-  )
-
-  newEntry <- observeEvent(input$goButton, {
-
+    }
+    
     # if the move is odd, it is 'black', otherwise white
-    if (as.numeric(input$goButton) %in% seq(1, 119, 2)) {
+    if (i %in% seq(1, 119, 2)) {
       color <- "black"
-      move_number <- (as.numeric(input$goButton) + 1) / 2
+      move_number <- (i + 1) / 2
       text_color <- "white"
     }
     else {
       color <- "white"
-      move_number <- as.numeric(input$goButton) / 2
+      move_number <- i / 2
       text_color <- "black"
     }
 
@@ -70,17 +68,15 @@ server <- function(input, output) {
       move_number = move_number,
       text_color = text_color
     )
-
     values$df <- rbind(values$df, new_row)
     
-    # initializing matrix
-    i <- input$goButton
+    # add color to the matrix
     values$matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
     
     # Checking winner
     winner <- gomoku_victory(values$matrix)
     
-    # Print winner in console if it exists (change to renderUI)
+    # Print winner in console if it exists
     # otherwise, announce whose turn it is.
     if (!is.na(winner)) {
       output$winner <- renderText({
@@ -104,7 +100,6 @@ server <- function(input, output) {
   })
 
   output$plot <- renderGirafe({
-
     # Initialize a new board
     board <- gomoku_board(board_size)
 
@@ -113,8 +108,8 @@ server <- function(input, output) {
       geom_point_interactive(
         data = dataInput(),
         aes(x = x, y = y, colour = move_color),
-        size = 6.5
-      ) + scale_colour_identity()
+        size = 6.5) + 
+      scale_colour_identity()
 
     # Adding move numbers to the plot if selected in the settings
     if (nrow(dataInput()) > 0 && input$show_moves == "Show move numbers") {
@@ -136,6 +131,4 @@ server <- function(input, output) {
   observeEvent(input$resetButton, {
     js$reset()
   })
-  
-  
 }
