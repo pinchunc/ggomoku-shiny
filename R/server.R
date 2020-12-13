@@ -10,7 +10,10 @@ server <- function(input, output) {
     move_number = numeric(),
     text_color = character()
   )
-
+  
+  # initializing matrix
+  values$matrix <- matrix(nrow = board_size, ncol = board_size)
+  
   # A reactive data.frame of the user input
   move_to_check <- reactive({
     data.frame(x = input$x_coord, y = input$y_coord)
@@ -69,6 +72,31 @@ server <- function(input, output) {
     )
 
     values$df <- rbind(values$df, new_row)
+    
+    # initializing matrix
+    i <- input$goButton
+    values$matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
+    
+    # Checking winner
+    winner <- gomoku_victory(values$matrix)
+    
+    # Print winner in console if it exists (change to renderUI)
+    # otherwise, announce whose turn it is.
+    if (!is.na(winner)) {
+      output$winner <- renderText({
+        paste0("The winner is ", winner, "! Press the restart button to refresh the game.")
+      })
+    }
+    else if (values$df$move_color[nrow(values$df)] == "black") {
+      output$turn <- renderText({
+        "It is white's turn to move."
+      })
+    }
+    else if (values$df$move_color[nrow(values$df)] == "white") {
+      output$turn <- renderText({
+        "It is black's turn to move."
+      })
+    }
   })
 
   dataInput <- reactive({
@@ -102,42 +130,6 @@ server <- function(input, output) {
   output$table <- DT::renderDataTable({
     # Printing the move history data.frame
     dataInput() %>% select(-text_color)
-  })
-
-  # initializing matrix
-  values$matrix <- matrix(nrow = board_size, ncol = board_size)
-  
-  observeEvent(input$goButton, {
-    # initializing matrix
-
-    i <- input$goButton
-    
-    values$matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
-    
-    print(values$matrix)
-    
-    # Checking winner
-    winner <- gomoku_victory(values$matrix)
-
-    # Print winner in console if it exists (change to renderUI)
-    # otherwise, announce whose turn it is.
-
-    if (!is.na(winner)) {
-      # Sound effect for winner
-      output$winner <- renderText({
-        paste0("The winner is ", winner, "! Press the restart button to refresh the game.")
-      })
-    }
-    else if (values$df$move_color[nrow(values$df)] == "black") {
-      output$turn <- renderText({
-        "It is white's turn to move."
-      })
-    }
-    else if (values$df$move_color[nrow(values$df)] == "white") {
-      output$turn <- renderText({
-        "It is black's turn to move."
-      })
-    }
   })
 
   # Restarting the game if they click the reset button
