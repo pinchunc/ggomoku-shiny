@@ -1,13 +1,15 @@
 server <- function(input, output) {
   board_size <- default_board_size
   # initialize the move history data.frame
-  values <- reactiveValues(df = data.frame(
+  values <- reactiveValues()
+  
+  values$df <- data.frame(
     x = numeric(),
     y = numeric(),
     move_color = character(),
     move_number = numeric(),
     text_color = character()
-  ))
+  )
 
   # A reactive data.frame of the user input
   move_to_check <- reactive({
@@ -102,17 +104,20 @@ server <- function(input, output) {
     dataInput() %>% select(-text_color)
   })
 
+  # initializing matrix
+  values$matrix <- matrix(nrow = board_size, ncol = board_size)
+  
   observeEvent(input$goButton, {
     # initializing matrix
-    matrix <- matrix(nrow = board_size, ncol = board_size)
 
-    # Adding the move to the matrix
-    for (i in 1:nrow(values$df)) {
-      matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
-    }
-
+    i <- input$goButton
+    
+    values$matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
+    
+    print(values$matrix)
+    
     # Checking winner
-    winner <- gomoku_victory(matrix)
+    winner <- gomoku_victory(values$matrix)
 
     # Print winner in console if it exists (change to renderUI)
     # otherwise, announce whose turn it is.
