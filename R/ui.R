@@ -42,7 +42,7 @@ ui <- fluidPage(
             )
           ),
           column(
-            12, girafeOutput(outputId = "plot", width = "100%", height = "650px"),
+            12, girafeOutput(outputId = "plot", width = "100%", height = "500px"),
           ),
           icon = icon("gamepad"),
           br(),
