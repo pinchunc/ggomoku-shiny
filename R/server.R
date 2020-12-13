@@ -1,7 +1,6 @@
 server <- function(input, output) {
   board_size <- default_board_size
   # initialize the move history data.frame
-  message("Initializing reactive data.frame...")
   values <- reactiveValues(df = data.frame(
     x = numeric(),
     y = numeric(),
@@ -33,6 +32,16 @@ server <- function(input, output) {
       })
     }
   )
+  
+  # Ending the game if it reaches 120 moves
+  last_move <- observe(
+    if (input$goButton == 120) { 
+      output$turn <- renderText({
+        "The game ends in a stalemate!"
+      })
+      js$reset()
+      }
+  )
 
   newEntry <- observeEvent(input$goButton, {
 
@@ -48,7 +57,6 @@ server <- function(input, output) {
       text_color <- "black"
     }
 
-    message("Adding move to move history...")
     # creating the new row based on user input
     new_row <- data.frame(
       x = as.numeric(input$x_coord),
@@ -58,7 +66,6 @@ server <- function(input, output) {
       text_color = text_color
     )
 
-
     values$df <- rbind(values$df, new_row)
   })
 
@@ -66,16 +73,12 @@ server <- function(input, output) {
     values$df
   })
 
-  message("Calling renderGirafe...")
   output$plot <- renderGirafe({
 
     # Initialize a new board
     board <- gomoku_board(board_size)
 
-    # Show move numbers if show_moves is selected
-
     # Adding points to the ggplot object
-    message("Plotting new board...")
     board <- board +
       geom_point_interactive(
         data = dataInput(),
@@ -94,25 +97,21 @@ server <- function(input, output) {
     girafe(ggobj = board)
   })
 
-  message("Calling renderDataTable...")
   output$table <- DT::renderDataTable({
     # Printing the move history data.frame
     dataInput() %>% select(-text_color)
   })
 
   observeEvent(input$goButton, {
-    message("Initializing the matrix...")
     # initializing matrix
     matrix <- matrix(nrow = board_size, ncol = board_size)
 
     # Adding the move to the matrix
     for (i in 1:nrow(values$df)) {
-      message("Adding move to the matrix...")
       matrix[(board_size + 1) - values$df$y[i], values$df$x[i]] <- values$df$move_color[i]
     }
 
     # Checking winner
-    message("Checking winner...")
     winner <- gomoku_victory(matrix)
 
     # Print winner in console if it exists (change to renderUI)
@@ -136,7 +135,10 @@ server <- function(input, output) {
     }
   })
 
+  # Restarting the game if they click the reset button
   observeEvent(input$resetButton, {
     js$reset()
   })
+  
+  
 }
