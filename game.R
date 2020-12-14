@@ -7,7 +7,7 @@ gomoku_board <- function(board_size = 19) {
   # Drawing board
   board <- suppressMessages(
     print(
-      ggplot(df) +
+      ggplot2::ggplot(df) +
         geom_point(aes(x, y), size = 5, alpha = 0) +
         theme(
           aspect.ratio = 1,

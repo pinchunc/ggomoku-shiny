@@ -124,7 +124,7 @@ server <- function(input, output) {
 
   output$table <- DT::renderDataTable({
     # Printing the move history data.frame
-    dataInput() magrittr%>% select(-text_color)
+    dataInput() %>% select(-text_color)
   })
 
   # Restarting the game if they click the reset button
