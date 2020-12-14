@@ -5,8 +5,8 @@ account: pinchunchen
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3390725
-bundleId: 3984804
+bundleId: 3984879
 url: https://pinchunchen.shinyapps.io/ggomoku/
-when: 1607906129.61936
+when: 1607908164.08697
 asMultiple: FALSE
 asStatic: FALSE

@@ -1,4 +1,5 @@
 ui <- fluidPage(
+  shinyjs::useShinyjs(),
   titlePanel("Play Gomoku (Five in a Row)"),
   helpText("Try to get five tiles of your own color in a row either horizontally, vertically, or diagonally, before your opponent."),
   hr(),
@@ -23,8 +24,8 @@ ui <- fluidPage(
         value = 10, min = 1, max = default_board_size
       ),
       actionButton(inputId = "goButton", label = "Submit Move", class = "btn-success"
-      ),
-      shinyjs::useShinyjs(),                                           # Include shinyjs in the UI
+      ),                                           
+      # Include shinyjs in the UI
       shinyjs::extendShinyjs(text = "shinyjs.reset = function() {history.go(0)}", functions = "reset"), # Add the js code to the page
       actionButton(inputId = "resetButton", label = "Restart")
     ),

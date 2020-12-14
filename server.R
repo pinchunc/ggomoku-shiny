@@ -1,4 +1,8 @@
 server <- function(input, output) {
+  require(dplyr)
+  require(ggplot2)
+  require(ggiraph)
+  
   board_size <- default_board_size
   # initialize the move history data.frame
   values <- reactiveValues()
@@ -22,10 +26,10 @@ server <- function(input, output) {
   # Disables the button if the move already has taken place
   button_allowed <- observe(
     if (nrow(merge(move_to_check(), (values$df %>% select(x, y)))) > 0) {
-      disable("goButton")
+      shinyjs::disable("goButton")
     }
     else {
-      enable("goButton")
+      shinyjs::enable("goButton")
     }
   )
 
