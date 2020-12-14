@@ -99,7 +99,7 @@ server <- function(input, output) {
     values$df
   })
 
-  output$plot <- renderGirafe({
+  output$plot <- ggiraph::renderGirafe({
     # Initialize a new board
     board <- gomoku_board(board_size)
 
@@ -124,7 +124,7 @@ server <- function(input, output) {
 
   output$table <- DT::renderDataTable({
     # Printing the move history data.frame
-    dataInput() %>% select(-text_color)
+    dataInput() magrittr%>% select(-text_color)
   })
 
   # Restarting the game if they click the reset button

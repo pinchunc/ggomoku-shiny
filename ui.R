@@ -24,8 +24,8 @@ ui <- fluidPage(
       ),
       actionButton(inputId = "goButton", label = "Submit Move", class = "btn-success"
       ),
-      useShinyjs(),                                           # Include shinyjs in the UI
-      extendShinyjs(text = jsResetCode, functions = "reset"), # Add the js code to the page
+      shinyjs::useShinyjs(),                                           # Include shinyjs in the UI
+      shinyjs::extendShinyjs(text = "shinyjs.reset = function() {history.go(0)}", functions = "reset"), # Add the js code to the page
       actionButton(inputId = "resetButton", label = "Restart")
     ),
     mainPanel(
@@ -42,7 +42,7 @@ ui <- fluidPage(
             )
           ),
           column(
-            12, girafeOutput(outputId = "plot", width = "100%", height = "500px"),
+            12, ggiraph::girafeOutput(outputId = "plot", width = "100%", height = "500px"),
           ),
           icon = icon("gamepad"),
           br(),
